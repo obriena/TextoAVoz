@@ -42,6 +42,18 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.watson</groupId>
+            <artifactId>ibm-watson</artifactId>
+            <version>7.4.0</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -114,9 +126,12 @@
                         <phase>test</phase>
                         <id>default-test</id>
                         <configuration>
-                            <excludes>
-                                <exclude>**/it/**</exclude>
-                            </excludes>
+                            <includes>
+                                <include>tests/**</include>
+                            </includes>
+<!--                            <excludes>-->
+<!--                                <exclude>it/**</exclude>-->
+<!--                            </excludes>-->
                             <reportsDirectory>${project.build.directory}/test-reports/unit</reportsDirectory>
                         </configuration>
                     </execution>
@@ -163,9 +178,9 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <includes>
-                                <include>**/it/**</include>
-                            </includes>
+<!--                            <includes>-->
+<!--                                <include>**/it/**</include>-->
+<!--                            </includes>-->
                             <systemPropertyVariables>
                                 <liberty.test.port>${testServerHttpPort}</liberty.test.port>
                                 <war.context>${warContext}</war.context>
