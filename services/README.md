@@ -17,3 +17,13 @@ Necesitas va a http://cloud.ibm.com y crear esta archivo.
 
 Puedes leer más [aquí](../README.md)
 
+# Dev Ops
+## Docker:
+Comando a construir imagen:
+```
+docker build -t flyingspheres/textoadockevoz:0.1 .
+```
+comand a correar la imagen:
+```
+'docker run -p 9080:9080 -d flyingspheres/textoadockevoz:0.1'
+```
