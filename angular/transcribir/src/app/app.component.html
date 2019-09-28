@@ -1,0 +1,84 @@
+<div >
+    
+</div>
+<mat-card>
+  <mat-card-content>
+    <div class="containerX">
+      <div fxlayout="row">
+        <div fxflex="100%" class="header-panel">
+            <app-header-widget></app-header-widget>
+        </div>
+      </div>
+      <div fxlayout="row" style="background: #CECECE">
+        <div [fxLayout]="cols.firstCol"
+              [fxLayout.xs]="cols.firstColXs"
+              [fxLayout.md]="cols.firstColMd"
+              [fxLayout.lg]="cols.firstColLg"
+              [fxLayout.gt-lg]="cols.firstColGtLg"
+              fxFlex="15%"
+              fxFlex.gt-sm="25"
+              fxHide.md
+              Style="height: 300px">
+          <div fxFlex><app-left-widget></app-left-widget></div>
+        </div>
+        <div [fxLayout]="cols.secondCol" fxFlex="65%">
+          <div><router-outlet></router-outlet></div>
+        </div>
+        <div [fxLayout]="cols.secondCol"
+              [fxLayout.xs]="cols.firstColXs"
+              [fxLayout.md]="cols.firstColMd"
+              [fxLayout.lg]="cols.firstColLg"
+              [fxLayout.gt-lg]="cols.firstColGtLg"
+              fxFlex="20%"
+              fxFlex.gt-sm="25"
+              fxHide.md>
+          <div fxFlex><app-right-widget></app-right-widget></div>
+        </div>
+      </div>
+      <div fxlayout="row">
+          <div fxflex="100%" class="footer-panel">
+              <app-footer-widget></app-footer-widget>
+          </div>
+        </div>      
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+<mat-card class="card-demo">
+    <mat-card-title>Multiple Responsive Columns</mat-card-title>
+    <mat-card-subtitle>Simple row with nested layout containers. Note: the 1st column is
+      responsive.
+    </mat-card-subtitle>
+    <mat-card-content>
+      <div class="containerX">
+        <div class="colorNested box" fxLayout="row" *ngIf="isVisible">
+          <div [fxLayout]="cols.firstCol"
+               [fxLayout.xs]="cols.firstColXs"
+               [fxLayout.md]="cols.firstColMd"
+               [fxLayout.lg]="cols.firstColLg"
+               [fxLayout.gt-lg]="cols.firstColGtLg"
+               fxFlex="50%"
+               fxFlex.gt-sm="25"
+               fxHide.md
+               (click)="toggleLayoutFor(1)" style="cursor: pointer;">
+            <div fxFlex>Col #1: First item in row</div>
+            <div fxFlex>Col #1: Second item in row</div>
+          </div>
+          <div [fxLayout]="cols.secondCol" fxFlex (click)="toggleLayoutFor(2)"
+               style="cursor: pointer;">
+            <div fxFlex>Col #2: First item in column</div>
+            <div fxFlex>Col #2: Second item in column</div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-footer style="width:95%; font-size: 0.9em; padding-left: 25px;">
+      <div fxLayout="row" class="hint" fxLayoutAlign="space-around">
+        <div fxLayout="{{ cols.firstCol }}" fxFlex="50%" fxFlex.gt-sm="25%" fxHide.md >
+        </div>
+        <div fxFlex></div>
+        <div fxLayout="{{ cols.secondCol }}" fxFlex ></div>
+      </div>
+    </mat-card-footer>
+  </mat-card>
