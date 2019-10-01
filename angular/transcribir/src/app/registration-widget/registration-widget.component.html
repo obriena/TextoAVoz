@@ -1,0 +1,35 @@
+<form [formGroup]="registrationForm">
+    <mat-form-field>
+        <input matInput placeholder="User ID" formControlName="userId"/>
+      </mat-form-field>
+      <br/>
+      <mat-form-field>
+          <input matInput type="password" placeholder="Password" formControlName="password"/>
+        </mat-form-field>
+      <br/>
+      <mat-form-field>
+          <input matInput type="password" placeholder="Verify Password" formControlName="altPassword"/>
+        </mat-form-field>
+      <br/> 
+      <mat-form-field>
+          <input matInput placeholder="First Name" formControlName="firstName"/>
+      </mat-form-field>
+      <br/>
+      <mat-form-field>
+            <input matInput placeholder="Last Name" formControlName="lastName"/>
+      </mat-form-field>
+      <br/>
+      <mat-form-field>
+            <input matInput placeholder="E-Mail" formControlName="email"/>
+      </mat-form-field>
+      <br/>
+      <div style="float: left; ">
+      <button mat-raised-button="" 
+        class="mat-raised-button mat-button-base" type="button"
+        (click)="registerUser()" style="width: 80px">
+        <span class="mat-button-wrapper">Register</span>
+        <div class="mat-button-ripple mat-ripple" matripple=""></div>
+        <div class="mat-button-focus-overlay"></div>
+      </button>
+      </div>
+</form>

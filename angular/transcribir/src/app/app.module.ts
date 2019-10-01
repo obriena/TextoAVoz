@@ -9,6 +9,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input"
 import { MatGridListModule } from "@angular/material/grid-list";
 import { ReactiveFormsModule } from "@angular/forms";
 
@@ -17,6 +19,8 @@ import { HeaderWidgetComponent } from './header-widget/header-widget.component';
 import { LeftWidgetComponent } from './left-widget/left-widget.component';
 import { RightWidgetComponent } from './right-widget/right-widget.component';
 import { FooterWidgetComponent } from './footer-widget/footer-widget.component';
+import { RegistrationWidgetComponent } from './registration-widget/registration-widget.component';
+import { CaptureAudioWidgetComponent } from './capture-audio-widget/capture-audio-widget.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,9 @@ import { FooterWidgetComponent } from './footer-widget/footer-widget.component';
     HeaderWidgetComponent,
     LeftWidgetComponent,
     RightWidgetComponent,
-    FooterWidgetComponent
+    FooterWidgetComponent,
+    RegistrationWidgetComponent,
+    CaptureAudioWidgetComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +39,8 @@ import { FooterWidgetComponent } from './footer-widget/footer-widget.component';
     MatCardModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatGridListModule,
     ReactiveFormsModule,
     FlexLayoutModule,
