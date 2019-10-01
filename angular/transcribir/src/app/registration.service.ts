@@ -6,7 +6,7 @@ import { User } from "./models/user";
 })
 export class RegistrationService {
   registerUser(user: User): boolean {
-    console.log(user.value);
+    
     if (user.credentials.userId == 'aobrie01'){
       return false;
     }

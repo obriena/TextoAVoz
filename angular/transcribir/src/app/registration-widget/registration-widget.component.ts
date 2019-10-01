@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Credentials } from '../models/credentials';
 import { User } from "../models/user";
@@ -11,40 +11,36 @@ import { RegistrationService } from "../registration.service";
   styleUrls: ['./registration-widget.component.css']
 })
 export class RegistrationWidgetComponent implements OnInit {
-/*
-export class User {
-    credentials: Credentials;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: string;
-}
-*/
+
   registrationForm: FormGroup;
 
   registrationSuccessful = true;
 
+
+
   constructor(private formBuilder: FormBuilder, 
               private router: Router,
               private registrationService: RegistrationService) { 
-    this.registrationForm = this.formBuilder.group({
-      userId: new FormControl(''),
-      password: new FormControl(''),
-      altPassword: new FormControl(''),
-      firstName: new FormControl(''),
-      lastName: new FormControl(''),
-      email: new FormControl('')
-    });
-}
 
-  ngOnInit() {
   }
 
+  ngOnInit() {
+      this.registrationForm = this.formBuilder.group({
+        userId: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        password: new FormControl('', Validators.required),
+        altPassword: new FormControl('', Validators.required),
+        firstName: new FormControl('', Validators.required),
+        lastName: new FormControl('', Validators.required),
+        email: new FormControl('', [Validators.required, Validators.email])
+      });
+    }
+
   registerUser() {
-      if ( this.registrationForm.get('password').value !=
-           this.registrationForm.get('altPassword').value ) {
-            window.alert("Passwords do not match");
+      if ( this.registrationForm.get('userId').hasError || 
+           this.registrationForm.get('email').hasError) {
+        console.log('Registration has errors');
       } else {
+      
         let credentials: Credentials;
         credentials = new Credentials();
         credentials.userId = this.registrationForm.get('userId').value;
@@ -58,9 +54,24 @@ export class User {
         user.email = this.registrationForm.get('email').value;
 
         this.registrationSuccessful = this.registrationService.registerUser(user);
+      
         if (this.registrationSuccessful) {
           this.router.navigate(['/login']);
         }
       }
   }
+
+  get userId() { 
+    return this.registrationForm.get('userId'); 
+  }
+  get email() { 
+    return this.registrationForm.get('email'); 
+  }
+  get firstName() { 
+    return this.registrationForm.get('firstName'); 
+  }
+  get lastName() { 
+    return this.registrationForm.get('lastName'); 
+  }
+
 }
