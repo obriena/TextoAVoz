@@ -61,7 +61,7 @@ export class RegistrationWidgetComponent implements OnInit {
         this.registrationSuccessful = this.registrationService.registerUser(user);
       
         if (this.registrationSuccessful) {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/registrationcomplete']);
         }
       }
   }
