@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Credentials } from '../models/credentials';
 import { User } from "../models/user";
 import { RegistrationService } from "../registration.service";
+import { passwordValidator } from '../password-validator.directive';
 
 @Component({
   selector: 'app-registration-widget',
@@ -15,8 +16,6 @@ export class RegistrationWidgetComponent implements OnInit {
   registrationForm: FormGroup;
 
   registrationSuccessful = true;
-
-
 
   constructor(private formBuilder: FormBuilder, 
               private router: Router,
@@ -32,13 +31,19 @@ export class RegistrationWidgetComponent implements OnInit {
         firstName: new FormControl('', Validators.required),
         lastName: new FormControl('', Validators.required),
         email: new FormControl('', [Validators.required, Validators.email])
-      });
+      }, {validators: passwordValidator});
     }
 
   registerUser() {
-      if ( this.registrationForm.get('userId').hasError || 
-           this.registrationForm.get('email').hasError) {
+      // if ( this.registrationForm.get('userId').hasError || 
+      //      this.registrationForm.get('password').hasError ||
+      //      this.registrationForm.get('altPassword').hasError ||
+      //      this.registrationForm.get('firstName').hasError ||
+      //      this.registrationForm.get('lastName').hasError ||
+      //      this.registrationForm.get('email').hasError ){
+      if (this.registrationForm.errors!=null){
         console.log('Registration has errors');
+        console.log(this.registrationForm.errors);
       } else {
       
         let credentials: Credentials;
@@ -63,6 +68,12 @@ export class RegistrationWidgetComponent implements OnInit {
 
   get userId() { 
     return this.registrationForm.get('userId'); 
+  }
+  get password() { 
+    return this.registrationForm.get('password'); 
+  }
+  get altPassword() { 
+    return this.registrationForm.get('altPassword'); 
   }
   get email() { 
     return this.registrationForm.get('email'); 

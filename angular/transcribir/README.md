@@ -30,3 +30,27 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Managing Environmnets
+
+[A good Resource](https://blog.angularindepth.com/becoming-an-angular-environmentalist-45a48f7c20d8) for managing environments.
+
+### Dev
+Starting the server with development configration:
+```
+ng serve --configuration=dev
+```  
+Development Configuration is for Angular work only.  
+
+### Integration
+Starting the server with the integration configuration:
+```
+ng serve --configuration=integration
+```
+
+### Production
+Start the server with production configuration:
+```
+ng serve --configuration=production
+```
+Production is for deploying into the prod environment.

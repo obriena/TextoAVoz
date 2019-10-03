@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Credentials } from "./models/credentials";
+import { environment } from "../environments/environment";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +9,7 @@ import { Credentials } from "./models/credentials";
 export class LoginService {
   
   validateUser(credentials: Credentials): boolean {
+    console.log("Login Service: " + environment.name);
     let isValid: boolean;
     isValid = false;
 
@@ -16,5 +19,5 @@ export class LoginService {
     return isValid;
   }
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 }
