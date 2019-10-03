@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from "../login.service";
 import { Credentials } from '../models/credentials';
+import { ServerMessage } from "../models/serverMessage";
 
 @Component({
   selector: 'app-login-widget',
@@ -11,8 +12,6 @@ import { Credentials } from '../models/credentials';
 })
 export class LoginWidgetComponent implements OnInit {
   userForm: FormGroup; 
-
-  userLoggedIn = false;
 
   constructor(private formBuilder: FormBuilder, 
               private router: Router,
@@ -33,13 +32,14 @@ export class LoginWidgetComponent implements OnInit {
     credentials = new Credentials();
     credentials.userId = this.userForm.get('userId').value;
     credentials.password = this.userForm.get('password').value;
-    this.userLoggedIn = this.loginService.validateUser(credentials);
-    if (this.userLoggedIn) {
-      this.router.navigate(['/captureaudio']);
-    } else {
-      window.alert("Invalid Credential");
-    }
     
+    this.loginService.validateUser(credentials).subscribe((serverMessage: ServerMessage) => {
+      if (serverMessage.status) {
+        this.router.navigate(['/captureaudio']);
+      } else {
+        window.alert(serverMessage.message);
+      }
+    });
   }
 
   goToRegistration() {

@@ -3,8 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  name: "Integration",
+  loginService: "http://localhost:9080/authenticate",
+  registrationService: "http://localhost:9080/register"
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

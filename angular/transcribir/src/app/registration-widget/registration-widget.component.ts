@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Credentials } from '../models/credentials';
 import { User } from "../models/user";
+import { ServerMessage } from "../models/serverMessage";
 import { RegistrationService } from "../registration.service";
 import { passwordValidator } from '../password-validator.directive';
 
@@ -14,8 +15,6 @@ import { passwordValidator } from '../password-validator.directive';
 export class RegistrationWidgetComponent implements OnInit {
 
   registrationForm: FormGroup;
-
-  registrationSuccessful = true;
 
   constructor(private formBuilder: FormBuilder, 
               private router: Router,
@@ -35,15 +34,14 @@ export class RegistrationWidgetComponent implements OnInit {
     }
 
   registerUser() {
-      // if ( this.registrationForm.get('userId').hasError || 
-      //      this.registrationForm.get('password').hasError ||
-      //      this.registrationForm.get('altPassword').hasError ||
-      //      this.registrationForm.get('firstName').hasError ||
-      //      this.registrationForm.get('lastName').hasError ||
-      //      this.registrationForm.get('email').hasError ){
-      if (this.registrationForm.errors!=null){
+       if ( this.registrationForm.get('userId').errors != null || 
+           this.registrationForm.get('password').errors != null ||
+           this.registrationForm.get('altPassword').errors != null ||
+           this.registrationForm.get('firstName').errors != null ||
+           this.registrationForm.get('lastName').errors != null ||
+          this.registrationForm.get('email').errors != null  || 
+           this.registrationForm.errors!=null ){
         console.log('Registration has errors');
-        console.log(this.registrationForm.errors);
       } else {
       
         let credentials: Credentials;
@@ -58,11 +56,13 @@ export class RegistrationWidgetComponent implements OnInit {
         user.lastName = this.registrationForm.get('lastName').value;
         user.email = this.registrationForm.get('email').value;
 
-        this.registrationSuccessful = this.registrationService.registerUser(user);
+        this.registrationService.registerUser(user).subscribe((serverMessage: ServerMessage) => {
+          if (serverMessage.status) {
+            this.router.navigate(['/registrationcomplete']);
+          }
+        });
       
-        if (this.registrationSuccessful) {
-          this.router.navigate(['/registrationcomplete']);
-        }
+ 
       }
   }
 
