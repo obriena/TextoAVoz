@@ -2,19 +2,27 @@
 
   <featureManager>
       <feature>microprofile-1.2</feature>
+      <feature>mongodb-2.0</feature>
       <feature>jndi-1.0</feature>
   </featureManager>
 
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 
+  <library id="MongoLib">
+    <file name="${server.resources.dir}/mongo/mongo-java-driver-3.11.0.jar" />
+  </library>
 
+  <mongo id="mongo" libraryRef="MongoLib" hostNames="localhost" ports="27017"/>
+  <mongoDB jndiName="mongo/userDb" mongoRef="mongo" databaseName="user-db" />
 
   <!-- Automatically expand WAR files and EAR files -->
   <applicationManager autoExpand="true"/>
 
   <applicationMonitor pollingRate="1000ms"/>
 
-  <webApplication name="SeptSecond2019-1.0-SNAPSHOT" location="${app.location}" contextRoot="/"/>
+  <webApplication name="SeptSecond2019-1.0-SNAPSHOT" location="${app.location}" contextRoot="/">
+     <classloader commonLibraryRef="MongoLib"/>
+  </webApplication>
 
 </server>
