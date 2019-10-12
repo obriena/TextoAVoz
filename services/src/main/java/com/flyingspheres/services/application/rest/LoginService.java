@@ -1,10 +1,15 @@
 package com.flyingspheres.services.application.rest;
 
+import com.flyingspheres.services.application.ModelAdaptor;
 import com.flyingspheres.services.application.models.Credentials;
 import com.flyingspheres.services.application.models.ServerMessage;
-import com.mongodb.DB;
+import com.flyingspheres.services.application.models.User;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -12,12 +17,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("authenticate")
 public class LoginService {
 
-    @Resource(name = "mongo/userDb")
-    protected DB db;
+    @Inject
+    MongoDatabase mongoDb;
+
+    @Resource( lookup = "userDataCollection", name= "userDataCollection")
+    String userCollection;
 
     @GET
     @Produces("application/json; charset=UTF-8")
@@ -25,14 +35,15 @@ public class LoginService {
         ServerMessage message = new ServerMessage();
 
         StringBuffer buffer = new StringBuffer();
-        buffer.append("DB injected: " + db == null);
-        message.setStatus(db==null);
-        if (db != null) {
-            buffer.append("collections: ");
-            buffer.append(db.getCollectionNames()).append("\n");
+        buffer.append("Null Check for DB: ");
+        buffer.append(mongoDb == null);
+        message.setStatus(mongoDb==null);
+        if (mongoDb != null) {
+            buffer.append(" collections: ");
             buffer.append("DB Name: ");
-            buffer.append(db.getName()).append("\n");
+            buffer.append(mongoDb.getName());
             message.setMessage(buffer.toString());
+            System.out.println(buffer.toString());
         } else {
             message.setMessage("DB Injection failed.  DB Object is null.");
         }
@@ -42,21 +53,32 @@ public class LoginService {
     @POST
     @Produces("application/json; charset=UTF-8")
     public Response authenticateCredentials(Credentials credentials){
-        ServerMessage message = new ServerMessage();
-        if (credentials.getUserId().isEmpty() || credentials.getPassword().isEmpty()){
-            message.setStatus(false);
-            StringBuffer buff = new StringBuffer();
-            if (credentials.getUserId().isEmpty()) {
-                buff.append("falta la identificación de usuario\n");
-            }
-            if (credentials.getPassword().isEmpty()){
-                buff.append("falta la contraseña");
-            }
-            message.setMessage(buff.toString());
-        } else {
-            message.setStatus(true);
-            message.setMessage("Todo está bien. Usario: " + credentials.getUserId());
+        Document filterUser = new Document();
+        Document credFilter = new Document();
+        credFilter.put("userId", credentials.getUserId());
+        credFilter.put("password", credentials.getPassword());
+        filterUser.put("credentials", credFilter);
+
+        FindIterable<Document> result = mongoDb.getCollection(userCollection).find().filter(filterUser);
+
+        List<Document> found = new ArrayList<Document>();
+        for (Document doc : result) {
+            found.add(doc);
         }
+
+
+        ServerMessage message = new ServerMessage();
+        if (found.size() < 1 || found.size() > 1){
+            message.setStatus(false);
+            message.setMessage("Usario no encontrado");
+        }
+        else if (found.size() == 1){
+            message.setStatus(true);
+            User user = ModelAdaptor.convertDocumentToUser(found.get(0));
+
+            message.setMessage(found.get(0).toJson());
+        }
+
         System.out.println(message.getMessage());
 
         return Response.ok(message).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON).header(HttpHeaders.CONTENT_ENCODING, "UTF-8").build();

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-header-widget',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderWidgetComponent implements OnInit {
 
+  @Input('loggedInUser') loggedInUser: User;
+  
   constructor() { }
 
   ngOnInit() {
