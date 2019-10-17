@@ -22,6 +22,9 @@ export class LoginWidgetComponent implements OnInit {
               private router: Router,
               private loginService: LoginService) { 
 
+    this.loggedInUser = new User();
+    this.loggedInUser.firstName = "All"
+    this.loggedInUser.lastName = "Might";
     this.userForm = this.formBuilder.group({
       userId: new FormControl(''),
       password: new FormControl(''),
@@ -44,14 +47,13 @@ export class LoginWidgetComponent implements OnInit {
         let resp = JSON.parse(serverMessage.message);
         console.log(resp);
         console.log(resp['email']);
-        this.loggedInUser = new User();
         this.loggedInUser.email = resp['email'];
         this.loggedInUser.firstName = resp['firstName'];
         this.loggedInUser.lastName = resp['lastName'];
         this.loggedInUser.role = resp['role'];
 
-        window.alert(serverMessage.message);  
-        this.router.navigate(['/captureaudio']);
+        //window.alert(serverMessage.message);  
+        //this.router.navigate(['/captureaudio']);
       } else {
         window.alert(serverMessage.message);
       }

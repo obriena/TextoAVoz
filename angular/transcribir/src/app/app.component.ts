@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import {MediaChange, MediaObserver} from '@angular/flex-layout';
 import {Subscription} from 'rxjs';
+import { LoginWidgetComponent } from './login-widget/login-widget.component';
+import { HeaderWidgetComponent } from './header-widget/header-widget.component';
+import { User } from './models/user';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent  implements AfterViewInit{
   title = 'transcribir';
   cols: {[key: string]: string} = {
     firstCol: 'row',
@@ -22,12 +25,26 @@ export class AppComponent {
   private activeMQC: MediaChange[];
   private subscription: Subscription;
 
+  @ViewChild(LoginWidgetComponent) loginWidgetReference: LoginWidgetComponent;
+  @ViewChild(HeaderWidgetComponent) headerWidgetReference: HeaderWidgetComponent;
+  
+  loggedInUser: User;
 
   constructor(mediaService: MediaObserver) {
+    
+    this.loggedInUser = new User();
     this.subscription = mediaService.asObservable()
       .subscribe((events: MediaChange[]) => {
         this.activeMQC = events;
       });
+  }
+
+  ngAfterViewInit() {      
+    console.log("AppComp ngAfterViewInt");
+
+      // this.loggedInUser = this.loginWidgetReference.loggedInUser;
+      //console.log(this.loggedInUser.credentials.userId);
+      this.headerWidgetReference.loggedInUser = this.loggedInUser;
   }
 
   ngOnDestroy() {
