@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../models/user';
+import { UserDataStoreService} from '../user-data-store.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-header-widget',
@@ -8,9 +10,13 @@ import { User } from '../models/user';
 })
 export class HeaderWidgetComponent implements OnInit {
 
-  @Input('loggedInUser') loggedInUser: User;
+  loggedInUser: User;
   
-  constructor() { }
+
+  
+  constructor(private userDataStore: UserDataStoreService) {
+    let userSubject = userDataStore.users;
+   }
 
   ngOnInit() {
   }
