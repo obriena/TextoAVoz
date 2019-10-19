@@ -52,6 +52,7 @@ export class LoginWidgetComponent implements OnInit {
         this.loggedInUser.lastName = resp['lastName'];
         this.loggedInUser.role = resp['role'];
 
+        console.log("Sending user: " + this.loggedInUser.firstName + " to the observable");
         this.userDataStore.addUser(this.loggedInUser);
 
         window.alert(serverMessage.message);  

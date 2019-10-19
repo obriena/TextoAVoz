@@ -10,15 +10,23 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class HeaderWidgetComponent implements OnInit {
 
-  loggedInUser: User;
+  loggedInUsers: User[] = [];
   
+  loggedInUser: User;
 
   
   constructor(private userDataStore: UserDataStoreService) {
-    let userSubject = userDataStore.users;
+    
    }
 
   ngOnInit() {
+    let userSubject = this.userDataStore.users;
+    userSubject.subscribe((usersData: User[]) =>{
+      console.log("recieved some data");
+      this.loggedInUsers = usersData;
+      this.loggedInUser = this.loggedInUsers[0];
+      console.log(this.loggedInUser.firstName);
+    });
   }
 
 }

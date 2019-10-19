@@ -23,6 +23,7 @@ export class UserDataStoreService {
   }
 
   addUser(aUser: User) {
+    console.log("publishing user")
     this._users.next(Object.assign({}, this.dataStore).users);
   }
 
