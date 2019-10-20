@@ -5,6 +5,7 @@ import { LoginService } from "../login.service";
 import { Credentials } from '../models/credentials';
 import { ServerMessage } from "../models/serverMessage";
 import { User } from '../models/user';
+import { UserDataStoreService } from "../user-data-store.service";
 
 @Component({
   selector: 'app-login-widget',
@@ -20,7 +21,8 @@ export class LoginWidgetComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, 
               private router: Router,
-              private loginService: LoginService) { 
+              private loginService: LoginService,
+              private userDataStore: UserDataStoreService) { 
 
     this.userForm = this.formBuilder.group({
       userId: new FormControl(''),
@@ -49,6 +51,9 @@ export class LoginWidgetComponent implements OnInit {
         this.loggedInUser.firstName = resp['firstName'];
         this.loggedInUser.lastName = resp['lastName'];
         this.loggedInUser.role = resp['role'];
+
+        console.log("Sending user: " + this.loggedInUser.firstName + " to the observable");
+        this.userDataStore.addUser(this.loggedInUser);
 
         window.alert(serverMessage.message);  
         this.router.navigate(['/captureaudio']);

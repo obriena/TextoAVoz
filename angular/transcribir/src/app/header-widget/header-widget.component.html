@@ -1,4 +1,6 @@
 <p>
   header-widget works!<br/>
-  Welcome {{loggedInUser.firstName}} {{loggedInUser.lastName}}
 </p>
+  <div *ngIf="loggedInUser">
+    Welcome {{loggedInUser.firstName}} {{loggedInUser.lastName}}
+  </div>
