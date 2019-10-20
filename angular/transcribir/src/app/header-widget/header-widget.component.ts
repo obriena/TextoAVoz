@@ -22,10 +22,12 @@ export class HeaderWidgetComponent implements OnInit {
   ngOnInit() {
     let userSubject = this.userDataStore.users;
     userSubject.subscribe((usersData: User[]) =>{
-      console.log("recieved some data");
-      this.loggedInUsers = usersData;
-      this.loggedInUser = this.loggedInUsers[0];
-      console.log(this.loggedInUser.firstName);
+      console.log("recieved some data size of data: " + usersData.length);
+      if (usersData.length > 0){
+        this.loggedInUsers = usersData;
+        this.loggedInUser = this.loggedInUsers[0];
+        console.log(this.loggedInUser.firstName);
+      }
     });
   }
 
