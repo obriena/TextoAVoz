@@ -51,11 +51,14 @@ export class LoginWidgetComponent implements OnInit {
         this.loggedInUser.firstName = resp['firstName'];
         this.loggedInUser.lastName = resp['lastName'];
         this.loggedInUser.role = resp['role'];
+        
+        let creds: Credentials = new Credentials();
+        creds.userId = resp['credentials']['userId'];
+        this.loggedInUser.credentials = creds;
 
         console.log("Sending user: " + this.loggedInUser.firstName + " to the observable");
         this.userDataStore.addUser(this.loggedInUser);
 
-        window.alert(serverMessage.message);  
         this.router.navigate(['/captureaudio']);
       } else {
         window.alert(serverMessage.message);
