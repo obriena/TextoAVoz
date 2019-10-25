@@ -1,6 +1,7 @@
 package com.flyingspheres.services.application.rest;
 
 
+import com.flyingspheres.services.application.models.ServerMessage;
 import com.ibm.cloud.sdk.core.http.HttpConfigOptions;
 import com.ibm.cloud.sdk.core.http.HttpMediaType;
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
@@ -95,8 +96,12 @@ public class FileUploadService {
                         .model("es-ES_BroadbandModel")
                         .contentType(HttpMediaType.AUDIO_MP3)
                         .build();
-
-                SpeechRecognitionResults transcript = service.recognize(recognizeOptions).execute().getResult();
+                ServerMessage message = new ServerMessage();
+                try {
+                    SpeechRecognitionResults transcript = service.recognize(recognizeOptions).execute().getResult();
+                } catch (Throwable t) {
+                    message.setStatus(false);
+                }
                 System.out.println(transcript);
                 transcripcion = transcript.toString();
             } catch (RuntimeException e) {
