@@ -1,21 +1,26 @@
 package com.flyingspheres.services.application.rest;
 
 
+import com.flyingspheres.services.application.ModelAdaptor;
+import com.flyingspheres.services.application.models.Media;
 import com.flyingspheres.services.application.models.ServerMessage;
-import com.ibm.cloud.sdk.core.http.HttpConfigOptions;
 import com.ibm.cloud.sdk.core.http.HttpMediaType;
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
 import com.ibm.watson.speech_to_text.v1.SpeechToText;
-import com.ibm.watson.speech_to_text.v1.model.AddAudioOptions;
 import com.ibm.watson.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.speech_to_text.v1.model.SpeechRecognitionResults;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.IOUtils;
+import org.bson.Document;
 
+import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.json.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -32,6 +37,11 @@ import java.io.InputStream;
 
 @Path("fileUpload")
 public class FileUploadService {
+    @Inject
+    MongoDatabase mongoDb;
+
+    @Resource( lookup = "mediaDataCollection", name= "mediaDataCollection")
+    String mediaCollection;
 
     private final static String archivoNombre = "/credenciales.txt";
     private static String apiKeyString = null;
@@ -63,9 +73,13 @@ public class FileUploadService {
         boolean isMultiPart = ServletFileUpload.isMultipartContent(httpRequest);
         String transcripcion = "Transcript failed";
         ServletFileUpload upload = new ServletFileUpload();
-        // Parse the request
-
+        ServerMessage message = new ServerMessage();
+        String userId = null;
+        String notas = null;
+        String fileName = null;
         try {
+            // Parse the request
+
             FileItemIterator iter = upload.getItemIterator(httpRequest);
 
             byte[] uploadedBytes = null;
@@ -74,10 +88,15 @@ public class FileUploadService {
                 String name = item.getFieldName();
                 InputStream stream = item.openStream();
                 if (item.isFormField()) {
-                    System.out.println("Form field " + name + " with value "
-                            + Streams.asString(stream) + " detected.");
+                    if (name.equals("userId")){
+                        userId = Streams.asString(stream);
+                    }
+                    else if (name.equals("notas")){
+                        notas = Streams.asString(stream);
+                    }
                 } else {
                     System.out.println("File field " + name + " with file name " + item.getName() + " detected.");
+                    fileName = item.getName();
                     uploadedBytes = IOUtils.toByteArray(stream);
                 }
             }
@@ -96,14 +115,24 @@ public class FileUploadService {
                         .model("es-ES_BroadbandModel")
                         .contentType(HttpMediaType.AUDIO_MP3)
                         .build();
-                ServerMessage message = new ServerMessage();
                 try {
                     SpeechRecognitionResults transcript = service.recognize(recognizeOptions).execute().getResult();
+                    System.out.println(transcript);
+                    message.setStatus(true);
+                    message.setMessage(transcript.toString());
+                    Media media = new Media();
+                    media.setUserId(userId);
+                    media.setNotas(notas);
+                    media.setFileName(fileName);
+                    media.setMediaData(uploadedBytes);
+                    media.setTranscription(transcript.toString());
+
+                    MongoCollection<Document> collection = mongoDb.getCollection(mediaCollection);
+                    collection.insertOne(ModelAdaptor.convertMediaToDocument(media));
                 } catch (Throwable t) {
                     message.setStatus(false);
+                    message.setMessage(t.getMessage());
                 }
-                System.out.println(transcript);
-                transcripcion = transcript.toString();
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
@@ -113,6 +142,6 @@ public class FileUploadService {
             e.printStackTrace();
         }
 
-        return Response.ok(transcripcion).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON).header(HttpHeaders.CONTENT_ENCODING, "UTF-8").build();
+        return Response.ok(message).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON).header(HttpHeaders.CONTENT_ENCODING, "UTF-8").build();
     }
 }
