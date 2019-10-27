@@ -31,10 +31,9 @@ export class CaptureAudioWidgetComponent implements OnInit {
 
     let userSubject = this.userDataStore.users;
     userSubject.subscribe((usersData: User[]) =>{
-      console.log("recieved some data size of data: " + usersData.length);
       if (usersData.length > 0){
         this.loggedInUser = usersData[0];
-        console.log("File Upload Component" +  this.loggedInUser.firstName);
+        console.log("File Upload Component user first name: " +  this.loggedInUser.firstName);
       }
     });
   }
@@ -58,7 +57,12 @@ export class CaptureAudioWidgetComponent implements OnInit {
       
       (res) => {
         console.log(res);
-        window.alert(res["results"][0]["alternatives"][0]["transcript"]);
+        if (res['status']){
+          let trans: string = res['message'];
+          let transJson = JSON.parse(trans);
+          window.alert(transJson["results"][0]["alternatives"][0]["transcript"]);
+        }
+        
       },
       (err) => console.log(err)
     );
