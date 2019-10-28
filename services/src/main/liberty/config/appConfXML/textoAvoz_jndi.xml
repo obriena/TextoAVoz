@@ -1,6 +1,7 @@
 <server>
-    <jndiEntry value='"localhost"' jndiName="mongoHostName" />
-    <jndiEntry value="27017"     jndiName="mongoPort" />
-    <jndiEntry value='"userDb"'    jndiName="userDataBase" />
+    <jndiEntry value='"localhost"'  jndiName="mongoHostName" />
+    <jndiEntry value="27017"        jndiName="mongoPort" />
+    <jndiEntry value='"userDb"'     jndiName="userDataBase" />
     <jndiEntry value='"users"'      jndiName="userDataCollection"/>
+    <jndiEntry value='"media"'      jndiName="mediaDataCollection"/>
 </server>
