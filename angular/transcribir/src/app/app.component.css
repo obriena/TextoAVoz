@@ -8,6 +8,12 @@
     flex: 1 1 100%;
     max-width: 100%;
 }
+.card-demo {
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 900px;
+}
 .footer-panel {
     background: rgb(166,166,168);
     background: linear-gradient(0deg, rgba(166,166,168,1), rgba(166,166,168,25%), rgba(206,206,206,1) 100%);
