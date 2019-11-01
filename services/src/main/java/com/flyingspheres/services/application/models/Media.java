@@ -1,11 +1,21 @@
 package com.flyingspheres.services.application.models;
 
 public class Media {
+    String mediaId;
     String userId;
     String notas;
     String fileName;
     String transcription;
     byte[] mediaData;
+
+
+    public String getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
+    }
 
     public String getUserId() {
         return userId;

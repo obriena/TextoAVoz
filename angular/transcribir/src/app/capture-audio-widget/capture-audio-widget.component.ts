@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder } from "@angular/forms";
 import { FormGroup } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { User } from '../models/user';
 import { Credentials } from '../models/credentials';
 import { UserDataStoreService } from '../user-data-store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-capture-audio-widget',
@@ -13,13 +14,16 @@ import { UserDataStoreService } from '../user-data-store.service';
   styleUrls: ['./capture-audio-widget.component.css']
 })
 
-export class CaptureAudioWidgetComponent implements OnInit {
+export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
 
   fileUploadUrl: string;
   uploadForm: FormGroup;
   loggedInUser: User;
 
-  constructor(private formBuilder: FormBuilder, private httpClient: HttpClient, private userDataStore: UserDataStoreService) {
+  constructor(private formBuilder: FormBuilder, 
+              private httpClient: HttpClient, 
+              private userDataStore: UserDataStoreService,
+              private router: Router,) {
     this.fileUploadUrl = environment.fileUploadService;
   }
 
@@ -36,6 +40,12 @@ export class CaptureAudioWidgetComponent implements OnInit {
         console.log("File Upload Component user first name: " +  this.loggedInUser.firstName);
       }
     });
+  }
+
+  ngAfterViewInit() {
+    if (!this.loggedInUser){
+      this.router.navigate(['/login']);
+    }
   }
 
   onFileSelect(event) {

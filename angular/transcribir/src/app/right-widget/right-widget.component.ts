@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
 import { HttpClient } from "@angular/common/http";
 import { UserDataStoreService } from '../user-data-store.service';
+import { Media } from '../models/media';
 
 @Component({
   selector: 'app-right-widget',
@@ -11,8 +12,11 @@ import { UserDataStoreService } from '../user-data-store.service';
 export class RightWidgetComponent implements OnInit {
 
   loggedInUser: User;
+  mediaFiles: Media[] = [];
 
-  constructor(private httpClient: HttpClient, private userDataStore: UserDataStoreService) { }
+  constructor(private httpClient: HttpClient, private userDataStore: UserDataStoreService) {
+    
+  }
 
   ngOnInit() {
     let userSubject = this.userDataStore.users;

@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 @Path("fileUpload")
 public class FileUploadService {
@@ -121,6 +122,7 @@ public class FileUploadService {
                     message.setStatus(true);
                     message.setMessage(transcript.toString());
                     Media media = new Media();
+                    media.setMediaId(UUID.randomUUID().toString());
                     media.setUserId(userId);
                     media.setNotas(notas);
                     media.setFileName(fileName);
@@ -128,7 +130,7 @@ public class FileUploadService {
                     media.setTranscription(transcript.toString());
 
                     MongoCollection<Document> collection = mongoDb.getCollection(mediaCollection);
-                    collection.insertOne(ModelAdaptor.convertMediaToDocument(media));
+                    collection.insertOne(ModelAdaptor.convertDocumentToMedia(media));
                 } catch (Throwable t) {
                     message.setStatus(false);
                     message.setMessage(t.getMessage());

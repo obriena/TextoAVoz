@@ -39,23 +39,24 @@ public class ModelAdaptor {
         return user;
     }
 
-    public static Document convertMediaToDocument(Media media) {
+    public static Document convertDocumentToMedia(Media media) {
         Document mediaDocument = new Document();
         mediaDocument.put("userId", media.getUserId());
         mediaDocument.put("notas", media.getNotas());
         mediaDocument.put("transcription", media.getTranscription());
+        mediaDocument.put("fileName", media.getFileName());
         mediaDocument.put("mediaData", media.getMediaData());
 
         return mediaDocument;
     }
 
-    public static Media convertMediaToDocument(Document mediaDoc) {
+    public static Media convertDocumentToMedia(Document mediaDoc) {
         Media media = new Media();
         media.setUserId(mediaDoc.getString("userId"));
         media.setNotas(mediaDoc.getString("notas"));
         media.setTranscription(mediaDoc.getString("transcription"));
-        media.setFileName(mediaDoc.getString("mediaData"));
-
+        media.setFileName(mediaDoc.getString("fileName"));
+        media.setMediaId(mediaDoc.getString("mediaId"));
         return media;
     }
 

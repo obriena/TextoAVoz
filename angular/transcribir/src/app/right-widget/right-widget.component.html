@@ -1,3 +1,5 @@
-<p>
-  el panel derecha está funcionando!
-</p>
+<div *ngIf="loggedInUser">
+  Nombre: {{loggedInUser.firstName}} {{loggedInUser.lastName}}<br/>
+  Correo: {{loggedInUser.email}}<br/>
+  Usario: {{loggedInUser.credentials.userId}}<br/>
+</div>
