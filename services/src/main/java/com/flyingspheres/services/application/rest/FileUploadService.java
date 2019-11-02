@@ -140,7 +140,8 @@ public class FileUploadService {
                     message.setStatus(true);
                     message.setMessage(transcript.toString());
                     Media media = new Media();
-                    media.setMediaId(UUID.randomUUID().toString());
+                    UUID uid = UUID.randomUUID();
+                    media.setMediaId(uid.toString());
                     media.setUserId(userId);
                     media.setNotas(notas);
                     media.setFileName(fileName);

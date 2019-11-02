@@ -30,4 +30,5 @@ export class Media {
    userId: string;
    notas: string;
    transcription: string;
+   fileName: string;
 }

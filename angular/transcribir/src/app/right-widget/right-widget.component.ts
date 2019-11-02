@@ -15,7 +15,7 @@ export class RightWidgetComponent implements OnInit {
 
   loggedInUser: User;
   mediaFiles: Media[] = [];
-  message: string;
+  message: string = "";
 
   constructor(private httpClient: HttpClient, 
               private userDataStore: UserDataStoreService,
@@ -34,12 +34,17 @@ export class RightWidgetComponent implements OnInit {
           if (serverMessage.status) {
             this.message = serverMessage.message;
             this.mediaFiles = serverMessage.payload;
-            console.log(this.mediaFiles[1]['transcription'])
           }
         });
 
       }
     });
   }
+
+
+
+    onSelect(media: Media): void {
+      window.alert(media.notas);   
+    }
 
 }

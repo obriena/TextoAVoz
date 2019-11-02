@@ -46,6 +46,7 @@ public class ModelAdaptor {
         mediaDocument.put("transcription", media.getTranscription());
         mediaDocument.put("fileName", media.getFileName());
         mediaDocument.put("mediaData", media.getMediaData());
+        mediaDocument.put("mediaId", media.getMediaId());
 
         return mediaDocument;
     }

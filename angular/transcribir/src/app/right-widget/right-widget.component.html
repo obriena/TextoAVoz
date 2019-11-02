@@ -1,5 +1,8 @@
 <div *ngIf="loggedInUser">
-  Nombre: {{loggedInUser.firstName}} {{loggedInUser.lastName}}<br/>
-  Correo: {{loggedInUser.email}}<br/>
-  Usario: {{loggedInUser.credentials.userId}}<br/>
+    <ul>
+      <li *ngFor="let media of mediaFiles" (click)="onSelect(media)">
+        {{media.fileName}}
+      </li>
+    </ul>
+    {{message}}
 </div>
