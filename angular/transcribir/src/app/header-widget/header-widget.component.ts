@@ -26,7 +26,7 @@ export class HeaderWidgetComponent implements OnInit {
       if (usersData.length > 0){
         this.loggedInUsers = usersData;
         this.loggedInUser = this.loggedInUsers[0];
-        console.log(this.loggedInUser.firstName);
+        console.log("Head Component user first name: " +  this.loggedInUser.firstName);
       }
     });
   }

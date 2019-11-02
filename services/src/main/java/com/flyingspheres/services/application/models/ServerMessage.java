@@ -3,6 +3,7 @@ package com.flyingspheres.services.application.models;
 public class ServerMessage {
     private Boolean status;
     private String message;
+    private Object payload;
 
     public Boolean getStatus() {
         return status;
@@ -18,5 +19,13 @@ public class ServerMessage {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Object getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Object payload) {
+        this.payload = payload;
     }
 }

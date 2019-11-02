@@ -26,7 +26,6 @@ export class UserDataStoreService {
     console.log("publishing user")
     this.dataStore.users.push( aUser );
     this._users.next(Object.assign({}, this.dataStore).users);
-
   }
 
 }

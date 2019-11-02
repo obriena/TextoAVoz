@@ -1,3 +1,16 @@
-<p>
-  capture-audio-widget works!
-</p>
+<div>
+  <form [formGroup] = "uploadForm" (ngSubmit)="onSubmit()">
+    <div>
+      Archive de subido: <input type="file" name="upfile" (change)="onFileSelect($event)"  style="width: 400px">
+    </div>
+    <br/>
+    <div>
+      Notas sobre el archivo: <input type="text" formControlName="notas">
+    </div>
+    <br/>
+    <button type="submit">Upload</button>
+  </form>
+  <div id="transDiv">
+    {{transcription}}
+  </div>
+</div>
