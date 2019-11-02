@@ -1,4 +1,5 @@
 <div *ngIf="loggedInUser">
+    <div>Transcripciones</div>
     <ul>
       <li *ngFor="let media of mediaFiles" (click)="onSelect(media)">
         {{media.fileName}}

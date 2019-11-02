@@ -19,7 +19,7 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
   fileUploadUrl: string;
   uploadForm: FormGroup;
   loggedInUser: User;
-
+  transcription: string = "";
   constructor(private formBuilder: FormBuilder, 
               private httpClient: HttpClient, 
               private userDataStore: UserDataStoreService,
@@ -68,9 +68,14 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
       (res) => {
         console.log(res);
         if (res['status']){
+          //TODO: broadcast to the mediaDataStore that we have a new entry
           let trans: string = res['message'];
           let transJson = JSON.parse(trans);
-          window.alert(transJson["results"][0]["alternatives"][0]["transcript"]);
+          for (let index = 0; index < transJson["results"][0]["alternatives"].length; index++) {
+            let alt = transJson["results"][0]["alternatives"][index];
+            this.transcription = this.transcription.concat("Confianza: " + alt["confidence"],"\n", alt["transcript"]);
+            
+          }
         }
         
       },
