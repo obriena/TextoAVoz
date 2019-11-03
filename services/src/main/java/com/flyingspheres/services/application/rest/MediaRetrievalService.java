@@ -7,14 +7,15 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.Binary;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -47,6 +48,38 @@ public class MediaRetrievalService {
         message.setPayload(mediaList);
 
         return Response.ok(message).build();
+    }
+
+    @GET
+    @Path("/playFileById/{mediaId}/{userId}")
+    @Produces("audio/mp3")
+    public Response streamAudioFile(@PathParam("mediaId") String mediaId, @PathParam("userId") String userId){
+        Document mediaFilter = new Document();
+        mediaFilter.put("userId", userId);
+        mediaFilter.put("mediaId", mediaId);
+
+        FindIterable<Document> result = mongoDb.getCollection(mediaCollection).find().filter(mediaFilter);
+
+        Binary data = null;
+        for (Document doc : result) {
+            data = (Binary)doc.get("mediaData");
+        }
+
+        final byte[] bytes = data.getData();
+
+        StreamingOutput stream = new StreamingOutput() {
+
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                try {
+                    output.write(bytes);
+                } catch (Throwable t) {
+                    throw new WebApplicationException(t);
+                }
+            }
+        };
+
+        return Response.ok(stream).build();
     }
 
 

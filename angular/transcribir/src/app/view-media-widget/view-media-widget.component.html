@@ -10,7 +10,11 @@
     Selected Media File: {{selectedMedia.fileName}}
   </div>
   <div id="mediaPlayer">
-    Play the file
+    Audio:
+      <audio controls>
+          <source src='{{mp3Link}}' type="audio/mpeg">
+          Playback not supported
+      </audio>
   </div>
   <div id="transcript">
     <ul>

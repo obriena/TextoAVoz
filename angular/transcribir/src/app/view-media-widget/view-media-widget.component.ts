@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { MediaDataStoreService } from '../media-data-store.service';
 import { Media } from '../models/media';
 import { Router } from '@angular/router';
+import { environment } from "../../environments/environment";
+
 
 @Component({
   selector: 'app-view-media-widget',
@@ -12,12 +14,13 @@ import { Router } from '@angular/router';
 export class ViewMediaWidgetComponent implements OnInit, AfterViewInit{
   selectedMedia: Media;
   formattedTranscript: [] = [];
+  mp3Link: string;
 
   constructor(private httpClient: HttpClient,
               private mediaDataService: MediaDataStoreService,
               private router: Router) {
-
-              }
+    
+  }
 
   ngOnInit() {
     let selectedMediaSubject = this.mediaDataService.selectedMediaFiles;
@@ -26,7 +29,9 @@ export class ViewMediaWidgetComponent implements OnInit, AfterViewInit{
       if (files.length > 0) {
         this.formattedTranscript = [];
         this.selectedMedia = files[files.length -1];
-        
+
+        this.mp3Link = environment.playMediaService + this.selectedMedia.mediaId + "/" + this.selectedMedia.userId;
+        console.log("Media Link: " + this.mp3Link);        
         let transcription = JSON.parse(this.selectedMedia.transcription);
         let results:[] = transcription['results'];
 
