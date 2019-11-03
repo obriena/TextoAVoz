@@ -23,6 +23,7 @@ import { FooterWidgetComponent } from './footer-widget/footer-widget.component';
 import { RegistrationWidgetComponent } from './registration-widget/registration-widget.component';
 import { CaptureAudioWidgetComponent } from './capture-audio-widget/capture-audio-widget.component';
 import { RegistrationConfirmationWidgetComponent } from './registration-confirmation-widget/registration-confirmation-widget.component';
+import { ViewMediaWidgetComponent } from './view-media-widget/view-media-widget.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { RegistrationConfirmationWidgetComponent } from './registration-confirma
     FooterWidgetComponent,
     RegistrationWidgetComponent,
     CaptureAudioWidgetComponent,
-    RegistrationConfirmationWidgetComponent
+    RegistrationConfirmationWidgetComponent,
+    ViewMediaWidgetComponent
   ],
   imports: [
     BrowserModule,

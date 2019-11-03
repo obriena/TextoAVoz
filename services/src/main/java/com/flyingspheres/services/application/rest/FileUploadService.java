@@ -150,6 +150,10 @@ public class FileUploadService {
 
                     MongoCollection<Document> collection = mongoDb.getCollection(mediaCollection);
                     collection.insertOne(ModelAdaptor.convertDocumentToMedia(media));
+
+                    //clearing out the data bytes so we don't send them back to the user.
+                    media.setMediaData(null);
+                    message.setPayload(media);
                 } catch (Throwable t) {
                     message.setStatus(false);
                     message.setMessage(t.getMessage());

@@ -7,6 +7,8 @@ import { User } from '../models/user';
 import { Credentials } from '../models/credentials';
 import { UserDataStoreService } from '../user-data-store.service';
 import { Router } from '@angular/router';
+import { MediaDataStoreService } from '../media-data-store.service';
+import { Media } from '../models/media';
 
 @Component({
   selector: 'app-capture-audio-widget',
@@ -23,7 +25,8 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
   constructor(private formBuilder: FormBuilder, 
               private httpClient: HttpClient, 
               private userDataStore: UserDataStoreService,
-              private router: Router,) {
+              private router: Router,
+              private mediaDataService: MediaDataStoreService) {
     this.fileUploadUrl = environment.fileUploadService;
   }
 
@@ -38,6 +41,14 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
       if (usersData.length > 0){
         this.loggedInUser = usersData[0];
         console.log("File Upload Component user first name: " +  this.loggedInUser.firstName);
+      }
+    });
+
+    let selectedMediaSubject = this.mediaDataService.selectedMediaFiles;
+    selectedMediaSubject.subscribe((files: Media[]) => {
+      console.log("Notified of selected media " + files.length);
+      if (files.length > 0) {
+        this.router.navigate(['/viewMedia']);
       }
     });
   }
@@ -71,10 +82,13 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
           //TODO: broadcast to the mediaDataStore that we have a new entry
           let trans: string = res['message'];
           let transJson = JSON.parse(trans);
+          let media: Media = res['payload'];
+
+          this.mediaDataService.addMediaFile(media);
+          
           for (let index = 0; index < transJson["results"][0]["alternatives"].length; index++) {
             let alt = transJson["results"][0]["alternatives"][index];
             this.transcription = this.transcription.concat("Confianza: " + alt["confidence"],"\n", alt["transcript"]);
-            
           }
         }
         
