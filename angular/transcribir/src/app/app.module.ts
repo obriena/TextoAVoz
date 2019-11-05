@@ -12,6 +12,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input"
+import { MatSelectModule } from "@angular/material/select";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { ReactiveFormsModule } from "@angular/forms";
 
@@ -46,6 +47,7 @@ import { RegistrationConfirmationWidgetComponent } from './registration-confirma
     MatFormFieldModule,
     MatInputModule,
     MatGridListModule,
+    MatSelectModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     BrowserAnimationsModule

@@ -19,6 +19,24 @@ export class CaptureAudioWidgetComponent implements OnInit {
   uploadForm: FormGroup;
   loggedInUser: User;
 
+  languages = [
+    {value: 'es-ES_BroadbandModel', viewValue: 'Spanish (Castilian)'},
+    {value: 'ar-AR_BroadbandModel', viewValue: 'Arabic (Modern Standard)'},
+    {value: 'pt-BR_BroadbandModel', viewValue: 'Brazilian Portuguese'},
+    {value: 'zh-CN_BroadbandModel', viewValue: 'Chinese (Mandarin)'},
+    {value: 'en-GB_BroadbandModel', viewValue: 'English (United Kingdon)'},
+    {value: 'en-US_BroadbandModel', viewValue: 'English (United States)'},
+    {value: 'fr-FR_BroadbandModel', viewValue: 'French'},
+    {value: 'de-DE_BroadbandModel', viewValue: 'German'},
+    {value: 'ja-JP_BroadbandModel', viewValue: 'Japanese'},
+    {value: 'ko-KR_BroadbandModel', viewValue: 'Korean'},
+    {value: 'es-AR_BroadbandModel', viewValue: 'Spanish (Argentinian, Beta)'},
+    {value: 'es-CL_BroadbandModel', viewValue: 'Spanish (Chilean, Beta)'},
+    {value: 'es-CO_BroadbandModel', viewValue: 'Spanish (Colombian, Beta)'},
+    {value: 'es-MX_BroadbandModel', viewValue: 'Spanish (Mexican, Beta)'},
+    {value: 'es-PE_BroadbandModel', viewValue: 'Spanish (Peruvian, Beta)'},
+  ];
+
   constructor(private formBuilder: FormBuilder, private httpClient: HttpClient, private userDataStore: UserDataStoreService) {
     this.fileUploadUrl = environment.fileUploadService;
   }
