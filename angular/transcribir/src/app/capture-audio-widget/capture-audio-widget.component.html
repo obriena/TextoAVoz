@@ -5,6 +5,14 @@
     </div>
     <br/>
     <div>
+      <mat-select>
+        <mat-option *ngFor="let lang of languages" [value]="lang.value">
+          {{lang.viewValue}}
+        </mat-option>
+      </mat-select>
+    </div>
+    <br/>
+    <div>
       Notas sobre el archivo: <input type="text" formControlName="notas">
     </div>
     <br/>
