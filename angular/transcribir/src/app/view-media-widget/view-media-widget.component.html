@@ -1,0 +1,29 @@
+<!--
+  mediaId: string;
+   userId: string;
+   notas: string;
+   transcription: string;
+   fileName: string;
+-->
+<div *ngIf="selectedMedia" id="mediaContent">
+  <div id="mediaHeader">
+    Selected Media File: {{selectedMedia.fileName}}
+  </div>
+  <div id="mediaPlayer">
+    Audio:
+      <audio controls>
+          <source src='{{mp3Link}}' type="audio/mpeg">
+          Playback not supported
+      </audio>
+      <br/>
+      Link: {{mp3Link}}
+      <br/>
+  </div>
+  <div id="transcript">
+    <ul>
+      <li *ngFor="let trans of formattedTranscript">
+        {{trans['confidence']}}: {{trans['transcript']}}
+      </li>
+    </ul>
+  </div>
+</div>

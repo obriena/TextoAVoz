@@ -78,6 +78,7 @@ public class FileUploadService {
         String userId = null;
         String notas = null;
         String fileName = null;
+        String language = null;
         try {
             // Parse the request
 
@@ -89,11 +90,14 @@ public class FileUploadService {
                 String name = item.getFieldName();
                 InputStream stream = item.openStream();
                 if (item.isFormField()) {
+                    String value =  Streams.asString(stream);
                     if (name.equals("userId")){
-                        userId = Streams.asString(stream);
+                        userId = value;
                     }
                     else if (name.equals("notas")){
-                        notas = Streams.asString(stream);
+                        notas = value;
+                    } else if (name.equals("language")) {
+                        language = value;
                     }
                 } else {
                     System.out.println("File field " + name + " with file name " + item.getName() + " detected.");
@@ -111,27 +115,14 @@ public class FileUploadService {
                         .build();
                 service.setIamCredentials(options);
 //https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-models#models
-                /*
-                Language	                Broadband model	        Narrowband model
-                Arabic (Modern Standard)	ar-AR_BroadbandModel	Not supported
-                Brazilian Portuguese	    pt-BR_BroadbandModel	pt-BR_NarrowbandModel
-                Chinese (Mandarin)	        zh-CN_BroadbandModel	zh-CN_NarrowbandModel
-                English (United Kingdon)	en-GB_BroadbandModel	en-GB_NarrowbandModel
-                English (United States) 	en-US_BroadbandModel	en-US_NarrowbandModelb en-US_ShortForm_NarrowbandModel
-                French	                    fr-FR_BroadbandModel	fr-FR_NarrowbandModel
-                German	                    de-DE_BroadbandModel	de-DE_NarrowbandModel
-                Japanese	                ja-JP_BroadbandModel	ja-JP_NarrowbandModel
-                Korean	                    ko-KR_BroadbandModel	ko-KR_NarrowbandModel
-                Spanish (Argentinian, Beta)	es-AR_BroadbandModel	es-AR_NarrowbandModel
-                Spanish (Castilian)	        es-ES_BroadbandModel	es-ES_NarrowbandModel
-                Spanish (Chilean, Beta)	    es-CL_BroadbandModel	es-CL_NarrowbandModel
-                Spanish (Colombian, Beta)	es-CO_BroadbandModel	es-CO_NarrowbandModel
-                Spanish (Mexican, Beta)	    es-MX_BroadbandModel	es-MX_NarrowbandModel
-                Spanish (Peruvian, Beta)	es-PE_BroadbandModel	es-PE_NarrowbandModel
-                */
+
+                if (language == null) {
+                    System.out.println("Language not set in form using default");
+                    language = "es-ES_BroadbandModel";
+                }
                 RecognizeOptions recognizeOptions = new RecognizeOptions.Builder()
                         .audio(bis)
-                        .model("es-ES_BroadbandModel")
+                        .model(language)
                         .contentType(HttpMediaType.AUDIO_MP3)
                         .build();
                 try {
@@ -150,6 +141,10 @@ public class FileUploadService {
 
                     MongoCollection<Document> collection = mongoDb.getCollection(mediaCollection);
                     collection.insertOne(ModelAdaptor.convertDocumentToMedia(media));
+
+                    //clearing out the data bytes so we don't send them back to the user.
+                    media.setMediaData(null);
+                    message.setPayload(media);
                 } catch (Throwable t) {
                     message.setStatus(false);
                     message.setMessage(t.getMessage());
