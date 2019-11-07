@@ -5,11 +5,16 @@
     </div>
     <br/>
     <div>
-      <mat-select>
+      <mat-form-field>
+        <mat-label>Idioma</mat-label>
+      <mat-select [(value)]="selected">
         <mat-option *ngFor="let lang of languages" [value]="lang.value">
           {{lang.viewValue}}
         </mat-option>
       </mat-select>
+    </mat-form-field>
+    <br/>
+    Selected: {{selected}}
     </div>
     <br/>
     <div>

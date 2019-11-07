@@ -21,14 +21,8 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
   fileUploadUrl: string;
   uploadForm: FormGroup;
   loggedInUser: User;
-
-  transcription: string = "";
-  constructor(private formBuilder: FormBuilder, 
-              private httpClient: HttpClient, 
-              private userDataStore: UserDataStoreService,
-              private router: Router,
-              private mediaDataService: MediaDataStoreService) {
-  languages:[] = [
+  selected: string;
+  languages = [
     {value: 'es-ES_BroadbandModel', viewValue: 'Spanish (Castilian)'},
     {value: 'ar-AR_BroadbandModel', viewValue: 'Arabic (Modern Standard)'},
     {value: 'pt-BR_BroadbandModel', viewValue: 'Brazilian Portuguese'},
@@ -46,6 +40,13 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
     {value: 'es-PE_BroadbandModel', viewValue: 'Spanish (Peruvian, Beta)'},
   ];
 
+  transcription: string = "";
+  constructor(private formBuilder: FormBuilder, 
+              private httpClient: HttpClient, 
+              private userDataStore: UserDataStoreService,
+              private router: Router,
+              private mediaDataService: MediaDataStoreService) {
+    console.log("Languages: " + this.languages.length);
     this.fileUploadUrl = environment.fileUploadService;
   }
 
@@ -88,6 +89,7 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
     if (this.loggedInUser) {
       let creds: Credentials = this.loggedInUser.credentials;    
       formData.append('userId', creds.userId);
+      formData.append('language', this.selected);
     }
     
     formData.append('upfile', this.uploadForm.get('upfile').value);

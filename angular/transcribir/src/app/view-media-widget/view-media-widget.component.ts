@@ -35,11 +35,13 @@ export class ViewMediaWidgetComponent implements OnInit, AfterViewInit{
         let transcription = JSON.parse(this.selectedMedia.transcription);
         let results:[] = transcription['results'];
 
-        for (let index = 0; index < results.length; index++) {
-          let alts:[] = results[index]['alternatives'];
-          for (let a = 0; a <alts.length; a++ ){
-            console.log(alts[a]['confidence'] + ": " + alts[a]['transcript']);
-            this.formattedTranscript.push(alts[a]);
+        if (results){
+          for (let index = 0; index < results.length; index++) {
+            let alts:[] = results[index]['alternatives'];
+            for (let a = 0; a <alts.length; a++ ){
+              console.log(alts[a]['confidence'] + ": " + alts[a]['transcript']);
+              this.formattedTranscript.push(alts[a]);
+            }
           }
         }
 
