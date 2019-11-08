@@ -11,12 +11,28 @@
   </div>
   <div id="mediaPlayer">
     Audio:
-      <audio controls>
-          <source src='{{mp3Link}}' type="audio/mpeg">
-          Playback not supported
-      </audio>
+      <vg-player style="height: 50px;">
+          <vg-controls>
+              <vg-play-pause></vg-play-pause>
+              <vg-playback-button></vg-playback-button>
+      
+              <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+      
+              <vg-scrub-bar>
+                  <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                  <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+              </vg-scrub-bar>
+      
+              <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+              <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+              
+            </vg-controls>    
+          <audio #media [vgMedia]="media" id="myAudio" preload="auto" src="{{mp3Link}}">
+          </audio>
+      </vg-player>
+    
       <br/>
-      Link: {{mp3Link}}
+      Link: <a href="{{mp3Link}}">Right Click to Download</a>
       <br/>
   </div>
   <div id="transcript">

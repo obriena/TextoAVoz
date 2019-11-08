@@ -26,6 +26,9 @@ import { CaptureAudioWidgetComponent } from './capture-audio-widget/capture-audi
 import { RegistrationConfirmationWidgetComponent } from './registration-confirmation-widget/registration-confirmation-widget.component';
 import { ViewMediaWidgetComponent } from './view-media-widget/view-media-widget.component';
 
+import { VgCoreModule } from "videogular2/compiled/core";
+import { VgControlsModule } from "videogular2/compiled/controls";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +55,9 @@ import { ViewMediaWidgetComponent } from './view-media-widget/view-media-widget.
     MatSelectModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    VgCoreModule,
+    VgControlsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

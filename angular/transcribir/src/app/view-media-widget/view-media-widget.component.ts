@@ -11,11 +11,12 @@ import { environment } from "../../environments/environment";
   templateUrl: './view-media-widget.component.html',
   styleUrls: ['./view-media-widget.component.css']
 })
+
 export class ViewMediaWidgetComponent implements OnInit, AfterViewInit{
   selectedMedia: Media;
   formattedTranscript: [] = [];
   mp3Link: string;
-
+  private showPlayer: boolean = false;
   constructor(private httpClient: HttpClient,
               private mediaDataService: MediaDataStoreService,
               private router: Router) {
@@ -31,6 +32,7 @@ export class ViewMediaWidgetComponent implements OnInit, AfterViewInit{
         this.selectedMedia = files[files.length -1];
 
         this.mp3Link = environment.playMediaService + this.selectedMedia.mediaId + "/" + this.selectedMedia.userId;
+       
         console.log("Media Link: " + this.mp3Link);        
         let transcription = JSON.parse(this.selectedMedia.transcription);
         let results:[] = transcription['results'];
@@ -54,4 +56,5 @@ export class ViewMediaWidgetComponent implements OnInit, AfterViewInit{
       this.router.navigate(['/login']);
     }
   }
+
 }
