@@ -42,7 +42,7 @@ export class LoginWidgetComponent implements OnInit {
     
     this.loginService.validateUser(credentials).subscribe((serverMessage: ServerMessage) => {
       if (serverMessage.status) {
-        console.log(serverMessage.message);
+        console.log("Server Response: " + serverMessage.message);
         let resp = JSON.parse(serverMessage.message);
         console.log(resp);
         console.log(resp['email']);
