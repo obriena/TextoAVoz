@@ -12,6 +12,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input"
+import { MatSelectModule } from "@angular/material/select";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { ReactiveFormsModule } from "@angular/forms";
 
@@ -23,6 +24,10 @@ import { FooterWidgetComponent } from './footer-widget/footer-widget.component';
 import { RegistrationWidgetComponent } from './registration-widget/registration-widget.component';
 import { CaptureAudioWidgetComponent } from './capture-audio-widget/capture-audio-widget.component';
 import { RegistrationConfirmationWidgetComponent } from './registration-confirmation-widget/registration-confirmation-widget.component';
+import { ViewMediaWidgetComponent } from './view-media-widget/view-media-widget.component';
+
+import { VgCoreModule } from "videogular2/compiled/core";
+import { VgControlsModule } from "videogular2/compiled/controls";
 
 @NgModule({
   declarations: [
@@ -34,7 +39,8 @@ import { RegistrationConfirmationWidgetComponent } from './registration-confirma
     FooterWidgetComponent,
     RegistrationWidgetComponent,
     CaptureAudioWidgetComponent,
-    RegistrationConfirmationWidgetComponent
+    RegistrationConfirmationWidgetComponent,
+    ViewMediaWidgetComponent
   ],
   imports: [
     BrowserModule,
@@ -46,9 +52,12 @@ import { RegistrationConfirmationWidgetComponent } from './registration-confirma
     MatFormFieldModule,
     MatInputModule,
     MatGridListModule,
+    MatSelectModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    VgCoreModule,
+    VgControlsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

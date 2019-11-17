@@ -5,6 +5,7 @@ import { UserDataStoreService } from '../user-data-store.service';
 import { Media } from '../models/media';
 import { RetrieveMediaService } from '../retrieve-media.service';
 import { ServerMessage } from '../models/serverMessage';
+import { MediaDataStoreService } from '../media-data-store.service';
 
 @Component({
   selector: 'app-right-widget',
@@ -19,7 +20,8 @@ export class RightWidgetComponent implements OnInit {
 
   constructor(private httpClient: HttpClient, 
               private userDataStore: UserDataStoreService,
-              private retrieveMediaService: RetrieveMediaService) {
+              private retrieveMediaService: RetrieveMediaService,
+              private mediaDataService: MediaDataStoreService) {
 
   }
 
@@ -36,15 +38,24 @@ export class RightWidgetComponent implements OnInit {
             this.mediaFiles = serverMessage.payload;
           }
         });
-
       }
     });
+
+
+    let mediaSubject = this.mediaDataService.mediaFiles;
+    mediaSubject.subscribe((newFiles: Media[]) => {
+      if (newFiles.length > 0) {
+        let newMedia: Media = newFiles[newFiles.length - 1];
+        this.mediaFiles.push(newMedia);
+        this.message = "Retrieved " + this.mediaFiles.length + " items";
+      }
+    });
+
+
   }
-
-
-
     onSelect(media: Media): void {
-      window.alert(media.notas);   
+      console.log("Setting Selected Media");
+      this.mediaDataService.selectMediaFile(media); 
     }
 
 }

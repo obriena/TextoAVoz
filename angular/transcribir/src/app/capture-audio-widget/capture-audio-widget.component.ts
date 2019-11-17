@@ -7,6 +7,8 @@ import { User } from '../models/user';
 import { Credentials } from '../models/credentials';
 import { UserDataStoreService } from '../user-data-store.service';
 import { Router } from '@angular/router';
+import { MediaDataStoreService } from '../media-data-store.service';
+import { Media } from '../models/media';
 
 @Component({
   selector: 'app-capture-audio-widget',
@@ -19,11 +21,32 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
   fileUploadUrl: string;
   uploadForm: FormGroup;
   loggedInUser: User;
+  selected: string;
+  languages = [
+    {value: 'es-ES_BroadbandModel', viewValue: 'Spanish (Castilian)'},
+    {value: 'ar-AR_BroadbandModel', viewValue: 'Arabic (Modern Standard)'},
+    {value: 'pt-BR_BroadbandModel', viewValue: 'Brazilian Portuguese'},
+    {value: 'zh-CN_BroadbandModel', viewValue: 'Chinese (Mandarin)'},
+    {value: 'en-GB_BroadbandModel', viewValue: 'English (United Kingdon)'},
+    {value: 'en-US_BroadbandModel', viewValue: 'English (United States)'},
+    {value: 'fr-FR_BroadbandModel', viewValue: 'French'},
+    {value: 'de-DE_BroadbandModel', viewValue: 'German'},
+    {value: 'ja-JP_BroadbandModel', viewValue: 'Japanese'},
+    {value: 'ko-KR_BroadbandModel', viewValue: 'Korean'},
+    {value: 'es-AR_BroadbandModel', viewValue: 'Spanish (Argentinian, Beta)'},
+    {value: 'es-CL_BroadbandModel', viewValue: 'Spanish (Chilean, Beta)'},
+    {value: 'es-CO_BroadbandModel', viewValue: 'Spanish (Colombian, Beta)'},
+    {value: 'es-MX_BroadbandModel', viewValue: 'Spanish (Mexican, Beta)'},
+    {value: 'es-PE_BroadbandModel', viewValue: 'Spanish (Peruvian, Beta)'},
+  ];
+
   transcription: string = "";
   constructor(private formBuilder: FormBuilder, 
               private httpClient: HttpClient, 
               private userDataStore: UserDataStoreService,
-              private router: Router,) {
+              private router: Router,
+              private mediaDataService: MediaDataStoreService) {
+    console.log("Languages: " + this.languages.length);
     this.fileUploadUrl = environment.fileUploadService;
   }
 
@@ -38,6 +61,14 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
       if (usersData.length > 0){
         this.loggedInUser = usersData[0];
         console.log("File Upload Component user first name: " +  this.loggedInUser.firstName);
+      }
+    });
+
+    let selectedMediaSubject = this.mediaDataService.selectedMediaFiles;
+    selectedMediaSubject.subscribe((files: Media[]) => {
+      console.log("Notified of selected media " + files.length);
+      if (files.length > 0) {
+        this.router.navigate(['/viewMedia']);
       }
     });
   }
@@ -58,6 +89,7 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
     if (this.loggedInUser) {
       let creds: Credentials = this.loggedInUser.credentials;    
       formData.append('userId', creds.userId);
+      formData.append('language', this.selected);
     }
     
     formData.append('upfile', this.uploadForm.get('upfile').value);
@@ -71,10 +103,13 @@ export class CaptureAudioWidgetComponent implements OnInit, AfterViewInit {
           //TODO: broadcast to the mediaDataStore that we have a new entry
           let trans: string = res['message'];
           let transJson = JSON.parse(trans);
+          let media: Media = res['payload'];
+
+          this.mediaDataService.addMediaFile(media);
+          
           for (let index = 0; index < transJson["results"][0]["alternatives"].length; index++) {
             let alt = transJson["results"][0]["alternatives"][index];
             this.transcription = this.transcription.concat("Confianza: " + alt["confidence"],"\n", alt["transcript"]);
-            
           }
         }
         
