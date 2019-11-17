@@ -39,11 +39,15 @@ public class MongoProducer {
         String parsedConnection = mongoConnectionString.replace("{userId}", mongoUserId);
         parsedConnection = parsedConnection.replace("{password}", mongoPassword);
         parsedConnection = parsedConnection.replace("{server}", hostName);
-
+        parsedConnection = parsedConnection + "&streamType=netty";
         System.out.println("Connection String: " + parsedConnection);
         ConnectionString conString = new ConnectionString(parsedConnection);
 
-        MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(conString).retryWrites(true).build();
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(conString)
+                .retryWrites(true)
+
+                .build();
 
         return MongoClients.create(settings);
     }
