@@ -62,6 +62,13 @@
             <version>${mongoDriverVersion}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.openliberty.features/passwordUtilities-1.0 -->
+        <dependency>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>passwordUtilities-1.0</artifactId>
+            <version>19.0.0.1</version>
+            <type>pom</type>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
