@@ -27,3 +27,35 @@ comand a correar la imagen:
 ```
 'docker run -p 9080:9080 -d flyingspheres/textoadockevoz:0.1'
 ```
+
+
+# Deploying to Cloud Foundry:
+```
+ibmcloud login
+
+ibmcloud target --cf
+aarons-mbp:services aaron$ ibmcloud target --cf
+Targeted Cloud Foundry (https://api.us-south.cf.cloud.ibm.com)
+
+Targeted org flyingspheres
+
+Targeted space dev
+
+
+                      
+API endpoint:      https://cloud.ibm.com   
+Region:            us-south   
+User:              aaron@flyingspheres.com   
+Account:           Aaron OBrien's Account (34662a492545e209b6e1f0178bb0131b)   
+Resource group:    No resource group targeted, use 'ibmcloud target -g RESOURCE_GROUP'   
+CF API endpoint:   https://api.us-south.cf.cloud.ibm.com (API version: 2.142.0)   
+Org:               flyingspheres   
+Space:             dev   
+
+```
+
+OpenSSL> s_client -connect cluster0-shard-00-02-gmcxk.mongodb.net:27017 -showcerts
+
+https://stacktracelog.blogspot.com/2018/09/certificate-chaining-error-ssl.html
+
+keytool -importcert -file ./cert1.cer -keystore ./key.jks -storepass transcribir -storetype jks

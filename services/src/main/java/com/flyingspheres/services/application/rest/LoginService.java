@@ -4,6 +4,7 @@ import com.flyingspheres.services.application.ModelAdaptor;
 import com.flyingspheres.services.application.models.Credentials;
 import com.flyingspheres.services.application.models.ServerMessage;
 import com.flyingspheres.services.application.models.User;
+import com.ibm.websphere.crypto.PasswordUtil;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -53,19 +54,22 @@ public class LoginService {
     @POST
     @Produces("application/json; charset=UTF-8")
     public Response authenticateCredentials(Credentials credentials){
-        Document filterUser = new Document();
-        Document credFilter = new Document();
-        credFilter.put("userId", credentials.getUserId());
-        credFilter.put("password", credentials.getPassword());
-        filterUser.put("credentials", credFilter);
-
-        FindIterable<Document> result = mongoDb.getCollection(userCollection).find().filter(filterUser);
-
         List<Document> found = new ArrayList<Document>();
-        for (Document doc : result) {
-            found.add(doc);
-        }
+        try {
+            Document filterUser = new Document();
+            Document credFilter = new Document();
+            credFilter.put("userId", credentials.getUserId());
+            credFilter.put("password", PasswordUtil.encode(credentials.getPassword()));
+            filterUser.put("credentials", credFilter);
 
+            FindIterable<Document> result = mongoDb.getCollection(userCollection).find().filter(filterUser);
+
+            for (Document doc : result) {
+                found.add(doc);
+            }
+        } catch (Throwable t){
+            t.printStackTrace();
+        }
 
         ServerMessage message = new ServerMessage();
         if (found.size() < 1 || found.size() > 1){

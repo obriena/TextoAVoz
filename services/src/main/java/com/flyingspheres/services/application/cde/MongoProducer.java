@@ -1,14 +1,11 @@
 package com.flyingspheres.services.application.cde;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.ServerAddress;
+import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
 
 import javax.annotation.Resource;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
-
 
 public class MongoProducer {
 
@@ -21,13 +18,34 @@ public class MongoProducer {
     @Resource( lookup = "userDataBase", name= "userDataBase")
     String dataBase;
 
+    @Resource( lookup = "mongoConnectString", name = "mongoConnectString")
+    String mongoConnectionString; //mongodb+srv://<userId>:<password>@<server>
+
+    @Resource( lookup = "mongoUserId", name = "mongoUserId")
+    String mongoUserId;
+
+    @Resource( lookup = "mongoPassword", name = "mongoPassword")
+    String mongoPassword;
+
+    @Resource( lookup = "environment", name = "environment")
+    String environment;  //valores válidos cloud o local
+
 
     @Produces
     public MongoClient createMongo() {
-        System.out.println("Create Mongo Client.");
-        System.out.println("Trying to connect with resources: \n\tHost name: " + hostName + "\n\tPort:" + port);
+        MongoClient client = null;
+        if (environment.equalsIgnoreCase("cloud")){
+            String parsedConnection = "mongodb+srv://transcrib_01:UUvFmx3dJdJDJ7Yx@" +
+                                      "cluster0-gmcxk.mongodb.net/test?retryWrites=true&" +
+                                      "w=majority";
+            MongoClientURI uri = new MongoClientURI(parsedConnection);
 
-        return new MongoClient(new ServerAddress(hostName, port.intValue()), new MongoClientOptions.Builder().build());
+            client = new MongoClient(uri);
+        } else {
+            client = new MongoClient(new ServerAddress(hostName, port.intValue()), new MongoClientOptions.Builder().build());
+        }
+
+        return client;
     }
 
     @Produces
