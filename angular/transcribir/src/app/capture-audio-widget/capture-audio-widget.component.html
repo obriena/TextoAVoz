@@ -1,0 +1,29 @@
+<div>
+  <form [formGroup] = "uploadForm" (ngSubmit)="onSubmit()">
+    <div>
+      Archive de subido: <input type="file" name="upfile" (change)="onFileSelect($event)"  style="width: 400px">
+    </div>
+    <br/>
+    <div>
+      <mat-form-field>
+        <mat-label>Idioma</mat-label>
+      <mat-select [(value)]="selected">
+        <mat-option *ngFor="let lang of languages" [value]="lang.value">
+          {{lang.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br/>
+    Selected: {{selected}}
+    </div>
+    <br/>
+    <div>
+      Notas sobre el archivo: <input type="text" formControlName="notas">
+    </div>
+    <br/>
+    <button type="submit">Upload</button>
+  </form>
+  <div id="transDiv">
+    {{transcription}}
+  </div>
+</div>

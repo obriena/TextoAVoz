@@ -1,0 +1,86 @@
+<form [formGroup]="registrationForm" id="registrationForm">
+  <mat-form-field>
+    <input matInput placeholder="ID de usario" formControlName="userId"/>
+  </mat-form-field>
+  <div *ngIf="userId.invalid && (userId.dirty || userId.touched)"
+    class="alert alert-danger">
+    <div *ngIf="userId.errors.required">
+      Se requiere identificación de usuario
+    </div>
+    <div *ngIf="userId.errors.minlength">
+        Name must be at least 6 characters long.
+      </div>
+  </div>
+
+  <br/>
+  <mat-form-field>
+      <input matInput type="password" placeholder="Contraseña" formControlName="password"/>
+    </mat-form-field>
+    <div *ngIf="password.invalid && (password.dirty || password.touched)"
+    class="alert alert-danger">
+    <div *ngIf="password.errors.required">
+        Se requiere contraseña
+    </div>
+  </div>
+
+  <br/>
+  <mat-form-field>
+      <input matInput type="password" placeholder="Verificar contraseña" formControlName="altPassword"/>
+  </mat-form-field>
+  <div *ngIf="altPassword.invalid && 
+              (altPassword.dirty || altPassword.touched)"
+        class="alert alert-danger">
+    <div *ngIf="altPassword.errors.required">
+        Se requiere verificar contraseña
+    </div>
+  </div>
+  <div *ngIf="registrationForm.errors && (registrationForm.dirty || registrationForm.touched)"
+        class="alert alert-danger">
+    <div *ngIf="registrationForm.errors">
+        Las contraseñas no coinciden
+    </div>
+  </div>    
+  <br/> 
+  <mat-form-field>
+      <input matInput placeholder="Nombre" formControlName="firstName"/>
+  </mat-form-field>
+  <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+      class="alert alert-danger">
+      <div *ngIf="firstName.errors.required">
+          Se requiere el primer nombre
+      </div>
+  </div>
+  <br/>
+  <mat-form-field>
+        <input matInput placeholder="Apellido" formControlName="lastName"/>
+  </mat-form-field>
+  <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+      class="alert alert-danger">
+      <div *ngIf="lastName.errors.required">
+          Apellido es requerido
+      </div>
+  </div>  
+  <br/>
+  <mat-form-field>
+        <input matInput type="email" placeholder="Correo electrónico" formControlName="email"/>
+  </mat-form-field>
+  <div *ngIf="email.invalid && (email.dirty || email.touched)"
+  class="alert alert-danger">
+  <div *ngIf="email.errors.required">
+    Correo electrónico es requerido
+  </div>
+  <div *ngIf="email.errors.email">
+      Dirección de correo electrónico no válida
+    </div>
+</div>
+  <br/>
+  <div style="float: left; ">
+    <button mat-raised-button="" 
+      class="mat-raised-button mat-button-base" type="button"
+      (click)="registerUser()" style="width: 80px">
+      <span class="mat-button-wrapper">Registro</span>
+      <div class="mat-button-ripple mat-ripple" matripple=""></div>
+      <div class="mat-button-focus-overlay"></div>
+    </button>
+  </div>
+</form>

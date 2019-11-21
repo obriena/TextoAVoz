@@ -15,4 +15,4 @@
 
 src/main/liberty/config/server.env
 src/main/resources/localdev-config.json
-src/mairesources/credenciales.txt
+src/main/resources/credenciales.txt

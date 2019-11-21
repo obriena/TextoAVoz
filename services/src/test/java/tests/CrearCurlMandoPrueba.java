@@ -1,4 +1,4 @@
-package it;
+package tests;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,7 +30,7 @@ public class CrearCurlMandoPrueba {
     private String apiKeyString = null;
     private String urlString = null;
 
-    @Before
+
     public void cargarCredenciales() {
         InputStream is = this.getClass().getResourceAsStream(archivoNombre);
         Assert.assertNotNull(is);
@@ -45,7 +45,7 @@ public class CrearCurlMandoPrueba {
         urlString = url.getString();
     }
 
-    @Test
+
     public void crearMandoPrueba (){
         Assert.assertNotNull(apiKeyString);
         String curlMando = mando.replace("{apikey}", apiKeyString);

@@ -1,0 +1,40 @@
+<mat-card class="card-demo">
+  <div fxflex="100%" class="header-panel">
+      <app-header-widget></app-header-widget>
+  </div>
+  <mat-card-content>
+    <div class="containerX">
+      <div fxlayout="row">
+        <div [fxLayout]="cols.firstCol"
+              [fxLayout.xs]="cols.firstColXs"
+              [fxLayout.md]="cols.firstColMd"
+              [fxLayout.lg]="cols.firstColLg"
+              [fxLayout.gt-lg]="cols.firstColGtLg"
+              fxFlex="15%"
+              fxFlex.gt-sm="25"
+              fxHide.md
+              Style="height: 300px">
+          <div fxFlex><app-left-widget></app-left-widget></div>
+        </div>
+        <div [fxLayout]="cols.secondCol" fxFlex="65%">
+          <div><router-outlet></router-outlet></div>
+        </div>
+        <div [fxLayout]="cols.secondCol"
+              [fxLayout.xs]="cols.firstColXs"
+              [fxLayout.md]="cols.firstColMd"
+              [fxLayout.lg]="cols.firstColLg"
+              [fxLayout.gt-lg]="cols.firstColGtLg"
+              fxFlex="20%"
+              fxFlex.gt-sm="25"
+              fxHide.md>
+          <div fxFlex><app-right-widget></app-right-widget></div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-footer>
+    <div fxflex="100%" class="footer-panel" style="padding: 10px;">
+        <app-footer-widget></app-footer-widget>
+    </div>   
+  </mat-card-footer>
+</mat-card>
