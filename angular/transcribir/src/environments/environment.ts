@@ -5,11 +5,11 @@
 export const environment = {
   production: false,
   name: "Integration",
-  loginService: "http://localhost:9080/authenticate",
-  registrationService: "http://localhost:9080/register",
-  fileUploadService: "http://localhost:9080/fileUpload",
-  mediaService: "http://localhost:9080/media/findAllForUser/",
-  playMediaService: "http://localhost:9080/media/playFileById/"
+  loginService: "http://localhost:9080/TextToSpeech/authenticate",
+  registrationService: "http://localhost:9080/TextToSpeech/register",
+  fileUploadService: "http://localhost:9080/TextToSpeech/fileUpload",
+  mediaService: "http://localhost:9080/TextToSpeech/media/findAllForUser/",
+  playMediaService: "http://localhost:9080/TextToSpeech/media/playFileById/"
 };
 
 

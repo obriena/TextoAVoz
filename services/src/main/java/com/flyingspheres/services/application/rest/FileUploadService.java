@@ -138,6 +138,7 @@ public class FileUploadService {
                     media.setFileName(fileName);
                     media.setMediaData(uploadedBytes);
                     media.setTranscription(transcript.toString());
+                    media.setIdioma(language);
 
                     MongoCollection<Document> collection = mongoDb.getCollection(mediaCollection);
                     collection.insertOne(ModelAdaptor.convertDocumentToMedia(media));

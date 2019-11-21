@@ -3,6 +3,9 @@ package com.flyingspheres.services.application;
 import com.flyingspheres.services.application.models.Credentials;
 import com.flyingspheres.services.application.models.Media;
 import com.flyingspheres.services.application.models.User;
+import com.ibm.websphere.crypto.InvalidPasswordEncodingException;
+import com.ibm.websphere.crypto.PasswordUtil;
+import com.ibm.websphere.crypto.UnsupportedCryptoAlgorithmException;
 import org.bson.Document;
 
 
@@ -17,7 +20,14 @@ public class ModelAdaptor {
 
         Document credentialDocument = new Document();
         credentialDocument.put("userId", user.getCredentials().getUserId());
-        credentialDocument.put("password", user.getCredentials().getPassword());
+        try {
+            String encodedPwd = PasswordUtil.encode(user.getCredentials().getPassword());
+            credentialDocument.put("password", encodedPwd);
+        } catch (InvalidPasswordEncodingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedCryptoAlgorithmException e) {
+            e.printStackTrace();
+        }
 
         userDocument.put("credentials", credentialDocument);
 
@@ -47,6 +57,7 @@ public class ModelAdaptor {
         mediaDocument.put("fileName", media.getFileName());
         mediaDocument.put("mediaData", media.getMediaData());
         mediaDocument.put("mediaId", media.getMediaId());
+        mediaDocument.put("idioma", media.getIdioma());
 
         return mediaDocument;
     }
@@ -58,6 +69,7 @@ public class ModelAdaptor {
         media.setTranscription(mediaDoc.getString("transcription"));
         media.setFileName(mediaDoc.getString("fileName"));
         media.setMediaId(mediaDoc.getString("mediaId"));
+        media.setIdioma(mediaDoc.getString("idioma"));
         return media;
     }
 
